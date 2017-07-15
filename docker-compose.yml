@@ -1,0 +1,25 @@
+version: "2"
+services:
+  # Lire web api module
+  lire-web-api:
+    image: kiliano/lire-web-api
+
+  # LireSolr module
+  liresolr:
+    image: dermotte/liresolr:latest
+
+  # ORACLE DB 11G Release 2 module
+  oracle-db:
+    image: mgaillard/mdb_oracle:latest
+    privileged: true
+    depends_on:
+      - "lire-web-api"
+      - "liresolr"
+
+  # Frontend
+  frontend:
+    image: mgaillard/mdb_frontend:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - "oracle-db"
